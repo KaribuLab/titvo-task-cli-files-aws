@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "module": "ESNext",
+    "rootDir": "./",
+    "moduleResolution": "Node",
+    "paths": {
+      "@shared": [
+        "./shared/src/index.ts"
+      ]
+    },
+    "outDir": "./build",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "skipLibCheck": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "shared/**/*.ts",
+    "test/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "**/*.js"
+  ]
+}

@@ -1,0 +1,20 @@
+# Run task on CLI
+# @name runCliFiles
+
+@apiKey = {{$dotenv API_KEY}}
+
+POST {{apiUrl}}/cli-files
+Content-Type: application/json
+X-API-Key: {{apiKey}}
+
+{
+  "source": "cli",
+  "args": {
+    "files": [
+      {
+        "name": "test.txt",
+        "content_type": "text/plain"
+      }
+    ]
+  }
+}
