@@ -35,7 +35,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event: APIGatewayProxyEv
     const files: CliFile[] = body.args.files.map((file: any): CliFile => ({ name: file.name, contentType: file.content_type }))
     const input: TaskCliFilesInputDto = {
       apiKey,
-      batchId: body.batchId,
+      batchId: body.args.batch_id,
       source,
       files
     }

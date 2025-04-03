@@ -1,6 +1,4 @@
-import { DynamoDBClient, PutItemCommand, PutItemCommandOutput } from '@aws-sdk/client-dynamodb'
-import { Logger } from '@nestjs/common'
-import { withRetry } from '../../shared/src/utils/aws.util'
+import { DynamoDBClient, PutItemCommand } from '@aws-sdk/client-dynamodb'
 import { TaskCliFile } from './task-cli-files.dto'
 export interface TaskCliFilesRepositoryOptions {
   tableName: string
@@ -9,7 +7,6 @@ export interface TaskCliFilesRepositoryOptions {
 }
 
 export class TaskCliFilesRepository {
-  private readonly logger = new Logger(TaskCliFilesRepository.name)
   private readonly tableName: string
 
   constructor (
@@ -20,26 +17,24 @@ export class TaskCliFilesRepository {
   }
 
   async create (taskCliFile: TaskCliFile): Promise<void> {
-    await withRetry(async (): Promise<PutItemCommandOutput> => {
-      const command = new PutItemCommand({
-        TableName: this.tableName,
-        Item: {
-          file_id: {
-            S: taskCliFile.fileId
-          },
-          batch_id: {
-            S: taskCliFile.batchId
-          },
-          file_key: {
-            S: taskCliFile.fileKey
-          },
-          tti: {
-            N: taskCliFile.tti.toString()
-          }
+    const command = new PutItemCommand({
+      TableName: this.tableName,
+      Item: {
+        file_id: {
+          S: taskCliFile.fileId
+        },
+        batch_id: {
+          S: taskCliFile.batchId
+        },
+        file_key: {
+          S: taskCliFile.fileKey
+        },
+        tti: {
+          N: taskCliFile.tti.toString()
         }
-      })
-      return await this.dynamoDBClient.send(command)
-    }, '', { logger: this.logger })
+      }
+    })
+    await this.dynamoDBClient.send(command)
   }
 }
 
