@@ -45,7 +45,10 @@ export const handler: APIGatewayProxyHandlerV2 = async (event: APIGatewayProxyEv
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(output)
+      body: JSON.stringify({
+        message: output.message,
+        presigned_urls: output.presignedUrls
+      })
     }
   } catch (error) {
     logger.error('Error processing task trigger')
