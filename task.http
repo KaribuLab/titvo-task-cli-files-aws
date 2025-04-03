@@ -10,9 +10,14 @@ X-API-Key: {{apiKey}}
 {
   "source": "cli",
   "args": {
+    "batch_id": "{{$guid}}",
     "files": [
       {
-        "name": "test.txt",
+        "name": "src/app.module.ts",
+        "content_type": "text/plain"
+      },
+      {
+        "name": "src/entrypoint.ts",
         "content_type": "text/plain"
       }
     ]
