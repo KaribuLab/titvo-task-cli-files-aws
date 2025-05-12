@@ -1,6 +1,7 @@
 import { S3Service } from '@titvo/aws'
 import { GetSignedUrlInput, GetSignedUrlOutput, StorageService } from '@titvo/shared'
-
+import { Injectable } from '@nestjs/common'
+@Injectable()
 export class S3StorageService extends StorageService {
   constructor (private readonly s3Service: S3Service) {
     super()
