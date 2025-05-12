@@ -1,28 +1,33 @@
 import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb'
 import { Logger } from '@nestjs/common'
-import { withRetry } from '../../shared/src/utils/aws.util'
-import { ApiKeyDto } from './api-key.dto'
-
+import { withRetry } from '@titvo/aws'
+import { ApiKeyEntity, ApiKeyRepository } from '@titvo/auth'
 export interface ApiKeyRepositoryOptions {
   tableName: string
   awsStage: string
   awsEndpoint: string
 }
 
-export class ApiKeyRepository {
-  private readonly logger = new Logger(ApiKeyRepository.name)
+export class DynamoApiKeyRepository extends ApiKeyRepository {
+  private readonly logger = new Logger(DynamoApiKeyRepository.name)
+  private readonly tableName: string
+  private readonly dynamoDBClient: DynamoDBClient
 
   constructor (
-    private readonly dynamoDBClient: DynamoDBClient,
-    private readonly tableName: string
-  ) {}
+    dynamoDBClient: DynamoDBClient,
+    tableName: string
+  ) {
+    super()
+    this.dynamoDBClient = dynamoDBClient
+    this.tableName = tableName
+  }
 
   /**
    * Finds an API Key by user ID
    * @param userId ID of the user
-   * @returns ApiKeyDto or null if not found
+   * @returns ApiKeyEntity or null if not found
    */
-  async findByUserId (userId: string): Promise<ApiKeyDto | null> {
+  async findByUserId (userId: string): Promise<ApiKeyEntity | null> {
     try {
       const result = await withRetry(async () => {
         return await this.dynamoDBClient.send(
@@ -56,9 +61,9 @@ export class ApiKeyRepository {
   /**
    * Finds an API Key by its value
    * @param apiKey Value of the API Key
-   * @returns ApiKeyDto or null if not found
+   * @returns ApiKeyEntity or null if not found
    */
-  async findByApiKey (apiKey: string): Promise<ApiKeyDto | null> {
+  async findByApiKey (apiKey: string): Promise<ApiKeyEntity | null> {
     try {
       const result = await withRetry(async () => {
         return await this.dynamoDBClient.send(
@@ -95,5 +100,5 @@ export function createApiKeyRepository (options: ApiKeyRepositoryOptions): ApiKe
     ? new DynamoDBClient({ endpoint: options.awsEndpoint })
     : new DynamoDBClient()
 
-  return new ApiKeyRepository(dynamoDBClient, options.tableName)
+  return new DynamoApiKeyRepository(dynamoDBClient, options.tableName)
 }

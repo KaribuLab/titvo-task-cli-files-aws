@@ -1,20 +1,31 @@
 import { Module } from '@nestjs/common'
-import { ParameterModule } from '@shared'
-import { TaskCliFilesModule } from './task-cli-files/task-cli-files.module'
+import { CliFilesModule } from '@infrastructure/cli-files/cli-files.module'
+import { ConfigModule } from '@titvo/aws'
+import { LoggerModule } from 'nestjs-pino'
+import { pino } from 'pino'
 
 @Module({
   imports: [
-    TaskCliFilesModule,
-    ParameterModule.forRoot({
-      parameterServiceOptions: {
-        ttl: 60,
+    LoggerModule.forRoot({
+      pinoHttp: {
+        level: process.env.LOG_LEVEL ?? 'info',
+        timestamp: pino.stdTimeFunctions.isoTime,
+        formatters: {
+          level (label: string): { level: string } {
+            return { level: label }
+          }
+        }
+      }
+    }),
+    ConfigModule.forRoot({
+      configOptions: {
         awsEndpoint: process.env.AWS_ENDPOINT ?? 'http://localhost:4566',
         awsStage: process.env.AWS_STAGE ?? 'prod',
-        parameterBasePath: '/tvo/security-scan',
-        serviceName: 'task-cli-files'
+        tableName: process.env.CONFIG_TABLE_NAME as string
       },
       isGlobal: true
-    })
+    }),
+    CliFilesModule
   ]
 })
 export class AppModule {}

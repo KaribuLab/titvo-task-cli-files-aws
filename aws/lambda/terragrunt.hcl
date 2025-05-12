@@ -24,7 +24,16 @@ dependency parameters {
   config_path = "${get_parent_terragrunt_dir()}/aws/parameter"
   mock_outputs = {
     parameters = {
-      "key" = "value"
+      "/tvo/security-scan/prod/infra/secret-manager-arn"              = "arn:aws:secretsmanager:us-east-1:000000000000:secret:/tvo/security-scan/prod"
+      "/tvo/security-scan/prod/infra/encryption-key-name"             = "tvo-github-security-scan-encryption-key-prod"
+      "/tvo/security-scan/prod/infra/dynamo-configuration-table-name" = "tvo-github-security-scan-configuration-table-prod"
+      "/tvo/security-scan/prod/infra/dynamo-cli-files-table-name"     = "tvo-github-security-scan-cli-files-table-prod"
+      "/tvo/security-scan/prod/infra/dynamo-api-key-table-name"       = "tvo-github-security-scan-api-key-table-prod"
+      "/tvo/security-scan/prod/infra/cli-bucket-name"                 = "tvo-github-security-scan-cli-bucket-prod"
+      "/tvo/security-scan/test/infra/dynamo-api-key-table-name"       = "tvo-github-security-scan-api-key-table-test"
+      "/tvo/security-scan/test/infra/dynamo-configuration-table-name" = "tvo-github-security-scan-configuration-table-test"
+      "/tvo/security-scan/test/infra/dynamo-cli-files-table-name"     = "tvo-github-security-scan-cli-files-table-test"
+      "/tvo/security-scan/test/infra/cli-bucket-name"                 = "tvo-github-security-scan-cli-bucket-test"
     }
   }
 }

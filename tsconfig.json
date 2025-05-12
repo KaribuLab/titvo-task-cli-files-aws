@@ -7,8 +7,20 @@
     "rootDir": "./",
     "moduleResolution": "Node",
     "paths": {
-      "@shared": [
-        "./shared/src/index.ts"
+      "@infrastructure/*": [
+        "./src/infrastructure/*"
+      ],
+      "@auth/*": [
+        "./auth/src/*"
+      ],
+      "@aws/*": [
+        "./lib/aws/src/*"
+      ],
+      "@trigger/*": [
+        "./trigger/src/*"
+      ],
+      "@shared/*": [
+        "./shared/src/*"
       ]
     },
     "outDir": "./build",
@@ -21,6 +33,9 @@
   "include": [
     "src/**/*.ts",
     "shared/**/*.ts",
+    "lib/aws/**/*.ts",
+    "trigger/**/*.ts",
+    "auth/**/*.ts",
     "test/**/*.ts"
   ],
   "exclude": [
