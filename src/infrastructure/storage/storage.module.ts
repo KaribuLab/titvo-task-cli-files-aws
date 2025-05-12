@@ -10,7 +10,14 @@ import { S3StorageService } from '@infrastructure/storage/storage.s3'
       useClass: S3StorageService
     }
   ],
-  imports: [S3Module],
+  imports: [
+    S3Module.forRoot({
+      s3ServiceOptions: {
+        awsEndpoint: process.env.AWS_ENDPOINT as string,
+        awsStage: process.env.AWS_STAGE as string
+      }
+    })
+  ],
   exports: [StorageService]
 })
 export class StorageModule {}
