@@ -36,7 +36,9 @@
     "lib/aws/**/*.ts",
     "trigger/**/*.ts",
     "auth/**/*.ts",
-    "test/**/*.ts"
+    "test/**/*.ts",
+    "vitest.config.ts"
+
   ],
   "exclude": [
     "node_modules",

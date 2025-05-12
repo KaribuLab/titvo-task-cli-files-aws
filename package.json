@@ -2,9 +2,10 @@
   "name": "tvo-task-cli-files",
   "version": "0.1.0",
   "main": "main.js",
-  "eslintConfig": {
-    "extends": [
-      "ts-standard"
+  "ts-standard": {
+    "ignore": [
+      "test/**/*.ts",
+      "vitest.config.ts"
     ]
   },
   "scripts": {
