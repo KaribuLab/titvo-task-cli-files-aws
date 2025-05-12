@@ -84,6 +84,15 @@ inputs = {
       {
         "Effect" : "Allow",
         "Action" : [
+          "dynamodb:GetItem",
+        ],
+        "Resource" : [
+          "${dependency.parameters.outputs.parameters["${local.base_path}/infra/dynamo-configuration-table-arn"]}"
+        ]
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
           "s3:PutObject"
         ],
         "Resource" : [
@@ -94,8 +103,13 @@ inputs = {
     ]
   })
   environment_variables = {
-    PARAMETER_BASE_PATH = local.serverless.locals.parameter_path
-    AWS_STAGE           = local.serverless.locals.stage
+    API_KEY_TABLE_NAME        = dependency.parameters.outputs.parameters["${local.base_path}/infra/dynamo-api-key-table-name"]
+    TASK_CLI_FILES_TABLE_NAME = dependency.parameters.outputs.parameters["${local.base_path}/infra/dynamo-cli-files-table-name"]
+    TASK_TABLE_NAME           = dependency.parameters.outputs.parameters["${local.base_path}/infra/dynamo-task-table-name"]
+    CONFIG_TABLE_NAME         = dependency.parameters.outputs.parameters["${local.base_path}/infra/dynamo-configuration-table-name"]
+    ENCRYPTION_KEY_NAME       = dependency.parameters.outputs.parameters["${local.base_path}/infra/encryption-key-name"]
+    AWS_STAGE                 = local.serverless.locals.stage
+    LOG_LEVEL                 = "debug"
   }
   runtime       = "nodejs20.x"
   handler       = "src/entrypoint.handler"
