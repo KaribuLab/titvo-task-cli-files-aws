@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
 import { CliFilesModule } from '@infrastructure/cli-files/cli-files.module'
-import { ConfigModule } from '@titvo/aws'
+import { ConfigModule, SecretModule } from '@titvo/aws'
 import { LoggerModule } from 'nestjs-pino'
 import { pino } from 'pino'
 
@@ -24,6 +24,11 @@ import { pino } from 'pino'
         tableName: process.env.CONFIG_TABLE_NAME as string
       },
       isGlobal: true
+    }),
+
+    SecretModule.forRoot({
+      awsStage: process.env.AWS_STAGE ?? 'prod',
+      awsEndpoint: process.env.AWS_ENDPOINT ?? 'http://localhost:4566'
     }),
     CliFilesModule
   ]
