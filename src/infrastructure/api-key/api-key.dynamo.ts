@@ -79,6 +79,7 @@ export class DynamoApiKeyRepository extends ApiKeyRepository {
       }, `findByApiKey(${apiKey})`, { logger: this.logger })
 
       if ((result.Items == null) || result.Items.length === 0) {
+        this.logger.debug(`No API key found for apiKey: ${apiKey}`)
         return null
       }
 
