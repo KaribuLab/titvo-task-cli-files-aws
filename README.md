@@ -1,41 +1,99 @@
-# Proyecto Base IVR
+# Titvo Task CLI Files
 
-## Uso del Template
+Servicio AWS Lambda para la gestión y generación de URLs prefirmadas para archivos CLI.
 
-Para utilizar este template en un nuevo proyecto, ejecuta el siguiente comando:
+## Descripción
 
-```shell
-kli project git@github.com:KaribuLab/titvo-base-lambda-apigateway.git
+Este servicio se encarga de generar URLs prefirmadas para la subida de archivos desde la interfaz de línea de comandos (CLI) a un bucket S3. El servicio valida las API keys y genera URLs seguras temporales para permitir la subida de archivos.
+
+## Características
+
+- Validación de API Keys para autenticación
+- Generación de URLs prefirmadas para S3
+- Manejo de lotes de archivos
+- Control de errores robusto
+- Registro de actividad
+
+## Tecnologías
+
+- NestJS como framework
+- TypeScript para el desarrollo
+- AWS Lambda para el despliegue
+- AWS S3 para el almacenamiento
+- AWS DynamoDB para la persistencia de datos
+- Vitest para las pruebas unitarias
+
+## Estructura del proyecto
+
+```
+src/
+├── app.module.ts            # Módulo principal de la aplicación
+├── entrypoint.ts            # Punto de entrada para AWS Lambda
+├── infrastructure/          # Implementaciones de infraestructura
+│   ├── api-key/             # Módulo de gestión de API keys
+│   ├── cli-files/           # Módulo de gestión de archivos CLI
+│   └── storage/             # Servicios de almacenamiento (S3)
+└── utils/                   # Utilidades generales
 ```
 
-## Requisitos
+## Instalación
 
-- [NVM](https://github.com/nvm-sh/nvm)
-- [Task](https://taskfile.dev/installation/)
-- [Terraform](https://developer.hashicorp.com/terraform/install?product_intent=terraform)
-- [Terragrunt](https://terragrunt.gruntwork.io/docs/getting-started/install/)
+```bash
+# Instalar dependencias
+npm install
 
-> [!IMPORTANT]
-> En windows se **DEBE** usar [Windows Subsystem for Linux 2 (WSL2)](https://learn.microsoft.com/es-es/windows/wsl/install)
-
-## Estructura del Proyecto
-
-```shell
-.
-├── aws                  # Recursos de AWS
-│   ├── cloudwatch       # Configuración de CloudWatch
-│   ├── lambda           # Configuración de Lambda
-│   └── parameter        # Parámetros de AWS
-├── localstack           # Configuración para desarrollo local
-├── template             # Plantillas para el proyecto
-├── .vscode              # Configuración de VS Code
-├── package.json         # Dependencias del proyecto
-├── serverless.hcl       # Configuración de Serverless
-├── terragrunt.hcl       # Configuración de Terragrunt
-├── tsconfig.json        # Configuración de TypeScript
-└── localstack.hcl       # Configuración adicional de LocalStack
+# Compilar el proyecto
+npm run build
 ```
 
-## Desarrollo Local
+## Pruebas
 
-Para el desarrollo local, se utiliza LocalStack. La configuración se encuentra en el archivo `localstack.hcl`.
+```bash
+# Ejecutar pruebas unitarias
+npm test
+```
+
+## Uso
+
+El servicio está diseñado para ser desplegado como una función AWS Lambda y ser invocado mediante un API Gateway. Acepta solicitudes POST con la siguiente estructura:
+
+```json
+{
+  "source": "source-name",
+  "args": {
+    "batch_id": "batch-identifier",
+    "files": [
+      {
+        "name": "filename.ext",
+        "content_type": "application/type"
+      }
+    ]
+  }
+}
+```
+
+Todas las solicitudes deben incluir un header `x-api-key` con una API key válida.
+
+## Respuesta
+
+El servicio responde con un objeto JSON que contiene:
+
+```json
+{
+  "message": "URLs generadas con éxito",
+  "presigned_urls": [
+    {
+      "name": "filename.ext",
+      "url": "https://presigned-url.com"
+    }
+  ]
+}
+```
+
+## Licencia
+
+Este proyecto está licenciado bajo [Apache License 2.0](LICENSE).
+
+## Autor
+
+Claro IVR <claro.ivr@karibu.cl>
