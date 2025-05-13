@@ -30,6 +30,7 @@ dependency parameters {
       "/tvo/security-scan/prod/infra/dynamo-cli-files-table-name"     = "tvo-github-security-scan-cli-files-table-prod"
       "/tvo/security-scan/prod/infra/dynamo-api-key-table-name"       = "tvo-github-security-scan-api-key-table-prod"
       "/tvo/security-scan/prod/infra/cli-bucket-name"                 = "tvo-github-security-scan-cli-bucket-prod"
+      "/tvo/security-scan/prod/infra/secret-manager-arn"              = "arn:aws:secretsmanager:us-east-1:000000000000:secret:/tvo/security-scan/prod"
       "/tvo/security-scan/test/infra/dynamo-api-key-table-name"       = "tvo-github-security-scan-api-key-table-test"
       "/tvo/security-scan/test/infra/dynamo-configuration-table-name" = "tvo-github-security-scan-configuration-table-test"
       "/tvo/security-scan/test/infra/dynamo-cli-files-table-name"     = "tvo-github-security-scan-cli-files-table-test"
@@ -98,6 +99,15 @@ inputs = {
         "Resource" : [
           dependency.parameters.outputs.parameters["${local.base_path}/infra/cli-files-bucket-arn"],
           "${dependency.parameters.outputs.parameters["${local.base_path}/infra/cli-files-bucket-arn"]}/*"
+        ]
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "secretsmanager:GetSecretValue"
+        ],
+        "Resource" : [
+          "${dependency.parameters.outputs.parameters["${local.base_path}/infra/secret-manager-arn"]}"
         ]
       }
     ]
