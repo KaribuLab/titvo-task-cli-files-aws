@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common'
 import { createApiKeyRepository } from '@infrastructure/api-key/api-key.dynamo'
 import { ApiKeyRepository, ValidateApiKeyUseCase } from '@titvo/auth'
 import { CryptoModule } from '@infrastructure/crypto/crypto.module'
+import { LoggerModule } from 'nestjs-pino'
+import { pino } from 'pino'
 @Module({
   providers: [
     ValidateApiKeyUseCase,
@@ -16,7 +18,20 @@ import { CryptoModule } from '@infrastructure/crypto/crypto.module'
       }
     }
   ],
-  imports: [CryptoModule],
+  imports: [
+    LoggerModule.forRoot({
+      pinoHttp: {
+        level: process.env.LOG_LEVEL ?? 'info',
+        timestamp: pino.stdTimeFunctions.isoTime,
+        formatters: {
+          level (label: string): { level: string } {
+            return { level: label }
+          }
+        }
+      }
+    }),
+    CryptoModule
+  ],
   exports: [ValidateApiKeyUseCase]
 })
 export class ApiKeyModule {}
