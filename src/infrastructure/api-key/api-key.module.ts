@@ -15,6 +15,6 @@ import { ApiKeyRepository, ValidateApiKeyUseCase } from '@titvo/auth'
       }
     }
   ],
-  exports: [ApiKeyRepository]
+  exports: [ValidateApiKeyUseCase]
 })
 export class ApiKeyModule {}
