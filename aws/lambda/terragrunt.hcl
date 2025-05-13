@@ -109,6 +109,7 @@ inputs = {
     CONFIG_TABLE_NAME         = dependency.parameters.outputs.parameters["${local.base_path}/infra/dynamo-configuration-table-name"]
     ENCRYPTION_KEY_NAME       = dependency.parameters.outputs.parameters["${local.base_path}/infra/encryption-key-name"]
     AWS_STAGE                 = local.serverless.locals.stage
+    NO_COLOR                  = "true"
     LOG_LEVEL                 = "debug"
   }
   runtime       = "nodejs20.x"
