@@ -4,7 +4,6 @@ import { createDynamoCliFilesRepository } from '@infrastructure/cli-files/cli-fi
 import { CliFilesRepository } from '@titvo/trigger'
 import { GetCliFilesSignedUrlsUseCase } from '@trigger/app/cli-files/cli-files.service'
 import { ApiKeyModule } from '@infrastructure/api-key/api-key.module'
-import { CryptoModule } from '@infrastructure/crypto/crypto.module'
 @Module({
   providers: [
     GetCliFilesSignedUrlsUseCase,
@@ -21,7 +20,7 @@ import { CryptoModule } from '@infrastructure/crypto/crypto.module'
       }
     }
   ],
-  imports: [StorageModule, ApiKeyModule, CryptoModule],
+  imports: [StorageModule, ApiKeyModule],
   exports: [GetCliFilesSignedUrlsUseCase]
 })
 export class CliFilesModule {}

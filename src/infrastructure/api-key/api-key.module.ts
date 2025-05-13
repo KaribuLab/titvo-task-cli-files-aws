@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common'
 import { createApiKeyRepository } from '@infrastructure/api-key/api-key.dynamo'
 import { ApiKeyRepository, ValidateApiKeyUseCase } from '@titvo/auth'
+import { CryptoModule } from '@infrastructure/crypto/crypto.module'
 @Module({
   providers: [
     ValidateApiKeyUseCase,
@@ -15,6 +16,7 @@ import { ApiKeyRepository, ValidateApiKeyUseCase } from '@titvo/auth'
       }
     }
   ],
+  imports: [CryptoModule],
   exports: [ValidateApiKeyUseCase]
 })
 export class ApiKeyModule {}
