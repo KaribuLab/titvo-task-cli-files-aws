@@ -92,32 +92,40 @@ El servicio responde con un objeto JSON que contiene:
 
 ## Despliegue
 
-Para desplegar el servicio, se utiliza Terragrunt. La configuración se encuentra en el archivo `terragrunt.hcl`.
+1. Clone el repositorio en la máquina local.
 
-Primero necesitará cargar las variables ambiente con las credenciales de AWS.
+  ```shell
+  git clone https://github.com/KaribuLab/titvo-task-cli-files.git
+  cd titvo-task-cli-files
+  ```
 
-```shell
-export AWS_ACCESS_KEY_ID="..."
-export AWS_SECRET_ACCESS_KEY="..."
-export AWS_SESSION_TOKEN="..."
-```
+2. Primero necesitará cargar las variables ambiente con las credenciales de AWS.
 
-O creando un archivo `.env` en la raíz del proyecto con las variables de entorno.
+  ```shell
+  export AWS_ACCESS_KEY_ID="..."
+  export AWS_SECRET_ACCESS_KEY="..."
+  export AWS_SESSION_TOKEN="..."
+  ```
 
-```shell
-export AWS_ACCESS_KEY_ID="..."
-export AWS_SECRET_ACCESS_KEY="..."
-export AWS_SESSION_TOKEN="..."
-```
+  O creando un archivo `.env` en la raíz del proyecto con las variables de entorno.
 
-Luego, se puede proceder a instalar las dependencias y ejecutar el despliegue.
+  ```shell
+  export AWS_ACCESS_KEY_ID="..."
+  export AWS_SECRET_ACCESS_KEY="..."
+  export AWS_SESSION_TOKEN="..."
+  ```
 
-```shell
-npm install
-npm run build
-cd aws
-terragrunt run-all apply
-```
+  > [!NOTE]
+  > Para cargar las variables de entorno, se puede usar el siguiente comando: `source .env`.
+
+3. Luego, se puede proceder a instalar las dependencias y ejecutar el despliegue.
+
+  ```shell
+  npm install
+  npm run build
+  cd aws
+  terragrunt run-all apply
+  ```
 
 ## Licencia
 
