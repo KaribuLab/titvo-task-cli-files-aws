@@ -90,10 +90,35 @@ El servicio responde con un objeto JSON que contiene:
 }
 ```
 
+## Despliegue
+
+Para desplegar el servicio, se utiliza Terragrunt. La configuración se encuentra en el archivo `terragrunt.hcl`.
+
+Primero necesitará cargar las variables ambiente con las credenciales de AWS.
+
+```shell
+export AWS_ACCESS_KEY_ID="..."
+export AWS_SECRET_ACCESS_KEY="..."
+export AWS_SESSION_TOKEN="..."
+```
+
+O creando un archivo `.env` en la raíz del proyecto con las variables de entorno.
+
+```shell
+export AWS_ACCESS_KEY_ID="..."
+export AWS_SECRET_ACCESS_KEY="..."
+export AWS_SESSION_TOKEN="..."
+```
+
+Luego, se puede proceder a instalar las dependencias y ejecutar el despliegue.
+
+```shell
+npm install
+npm run build
+cd aws
+terragrunt run-all apply
+```
+
 ## Licencia
 
 Este proyecto está licenciado bajo [Apache License 2.0](LICENSE).
-
-## Autor
-
-Claro IVR <claro.ivr@karibu.cl>
