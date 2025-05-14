@@ -19,7 +19,7 @@
     "AWS",
     "Nest"
   ],
-  "author": "Claro IVR <claro.ivr@karibu.cl>",
+  "author": "Patricio Ascencio <patricio.ascencio@karibu.cl>",
   "license": "UNLICENSED",
   "devDependencies": {
     "@rspack/cli": "1.2.5",
