@@ -20,7 +20,7 @@
     "Nest"
   ],
   "author": "Patricio Ascencio <patricio.ascencio@karibu.cl>",
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "devDependencies": {
     "@rspack/cli": "1.2.5",
     "@rspack/core": "1.2.5",
