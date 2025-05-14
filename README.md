@@ -97,6 +97,8 @@ El servicio responde con un objeto JSON que contiene:
   ```shell
   git clone https://github.com/KaribuLab/titvo-task-cli-files.git
   cd titvo-task-cli-files
+  git submodule init
+  git submodule update
   ```
 
 2. Primero necesitará cargar las variables ambiente con las credenciales de AWS.
