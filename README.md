@@ -92,72 +92,34 @@ El servicio responde con un objeto JSON que contiene:
 
 ## Despliegue
 
-Modifica los valores del archivo `serverless.hcl` con los valores de tu proyecto.
+Opcionalmente se puede crear un archivo common_tags.json con las etiquetas necesarias:
 
-```hcl
-locals {
-  region = get_env("AWS_REGION")
-  stage  = get_env("AWS_STAGE")
-  stages = {
-    test = {
-      name = "Testing"
-    },
-    localstack = {
-      name = "Localstack"
-    },
-    prod = {
-      name = "Production"
-    }
-  }
-  service_name   = "my-service"
-  service_bucket = "${local.service_name}-${local.region}"
-  log_retention  = 7
-  parameter_path = "/my-service"
-  common_tags = {
-    my_tag = "my-tag-value"
-  }
+```json
+{
+  "Project": "Titvo Security Scan",
+  "Customer": "Titvo",
+  "Team": "Area Creacion"
 }
 ```
 
-1. Clone el repositorio en la máquina local.
-
-  ```shell
-  git clone https://github.com/KaribuLab/titvo-task-cli-files.git
-  cd titvo-task-cli-files
-  git submodule init
-  git submodule update
+1. Crear archivo .env con las variables necesarias descritas arriba
+  ```bash
+  export AWS_ACCESS_KEY_ID="tu_access_key"
+  export AWS_SECRET_ACCESS_KEY="tu_secret_key"
+  export AWS_DEFAULT_REGION="us-east-1"
+  export AWS_STAGE="prod"
+  export PROJECT_NAME="titvo-task-cli-files" # Opcional si quiere mantener los valores por defecto. Esto se usará como prefijo para los recursos
+  export PARAMETER_PATH="/titvo/security-scan" # Opcional si quiere mantener los valores por defecto. Esto se usará como prefijo para los parámetros
+  export BUCKET_STATE_NAME="titvo-task-cli-files-terraform-state" # Opcional, si no se especifica se usará el nombre del proyecto. Por ejemplo: titvo-security-scan-terraform-state
   ```
-
-2. Primero necesitará cargar las variables ambiente con las credenciales de AWS.
-
-  ```shell
-  export AWS_ACCESS_KEY_ID="..."
-  export AWS_SECRET_ACCESS_KEY="..."
-  export AWS_SESSION_TOKEN="..."
-  export AWS_REGION="..."
-  export AWS_STAGE="..."
-  ```
-
-  O creando un archivo `.env` en la raíz del proyecto con las variables de entorno.
-
-  ```shell
-  export AWS_ACCESS_KEY_ID="..."
-  export AWS_SECRET_ACCESS_KEY="..."
-  export AWS_SESSION_TOKEN="..."
-  export AWS_REGION="..."
-  export AWS_STAGE="..."
-  ```
-
-  > [!NOTE]
-  > Para cargar las variables de entorno, se puede usar el siguiente comando: `source .env`.
-
-3. Luego, se puede proceder a instalar las dependencias y ejecutar el despliegue.
-
-  ```shell
+  > [!IMPORTANT]
+  > `PARAMETER_PATH`deben tener los mismos valores que se usarion en el proyecto [titvo-security-scan-infra-aws](https://github.com/KaribuLab/titvo-security-scan-infra-aws)
+1. Desplegar el proyecto
+  ```bash
   npm install
   npm run build
   cd aws
-  terragrunt run-all apply
+  terragrunt run-all apply --auto-approve
   ```
 
 ## Licencia
