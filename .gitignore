@@ -13,3 +13,5 @@ build
 
 .terragrunt-cache
 .terraform.lock.hcl
+
+common_tags.json

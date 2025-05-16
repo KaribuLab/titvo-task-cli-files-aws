@@ -12,12 +12,13 @@ locals {
       name = "Production"
     }
   }
-  service_name   = "tvo-task-cli-files"
-  service_bucket = "${local.service_name}-${local.region}"
+  service_name   = get_env("PROJECT_NAME", "tvo-task-cli-files")
+  service_bucket = get_env("BUCKET_STATE_NAME", "${local.service_name}-${local.region}")
+  parameter_path = get_env("PARAMETER_PATH", "/tvo/security-scan")
+  tags_file_path = "${get_terragrunt_dir()}/common_tags.json"
   log_retention  = 7
-  parameter_path = "/tvo/security-scan"
-  common_tags = {
-    Project     = "Github Security Scan"
+  common_tags = fileexists(local.tags_file_path) ? jsondecode(file(local.tags_file_path)) : {
+    Project     = "Titvo Security Scan"
     Customer    = "Titvo"
     Team        = "Area Creacion"
     Environment = "${local.stages[local.stage].name}"
