@@ -119,7 +119,7 @@ Opcionalmente se puede crear un archivo common_tags.json con las etiquetas neces
   npm install
   npm run build
   cd aws
-  terragrunt run-all apply --auto-approve
+  terragrunt run-all apply --terragrunt-non-interactive --auto-approve
   ```
 
 ## Licencia
