@@ -14,11 +14,12 @@ locals {
       name = "Production"
     }
   }
-  service_name   = "tvo-task-cli-files"
-  service_bucket = "${local.service_name}-${local.region}${local.bucket_suffix}"
-  parameter_path = "/tvo/security-scan"
-  tags_file_path = "${get_terragrunt_dir()}/common_tags.json"
-  log_retention  = 7
+  provider_version = "6.7.0"
+  service_name     = "tvo-task-cli-files"
+  service_bucket   = "${local.service_name}-${local.region}${local.bucket_suffix}"
+  parameter_path   = "/tvo/security-scan"
+  tags_file_path   = "${get_terragrunt_dir()}/common_tags.json"
+  log_retention    = 7
   common_tags = fileexists(local.tags_file_path) ? jsondecode(file(local.tags_file_path)) : {
     Project = "Titvo Task CLI Files"
   }
