@@ -1,8 +1,8 @@
 locals {
-  region          = get_env("AWS_REGION")
-  stage           = get_env("AWS_STAGE")
-  use_bucket_uuid = get_env("USE_BUCKET_UUID", "no")
-  bucket_suffix   = local.use_bucket_uuid == "no" ? "" : "-${substr(replace(uuid(), "-", ""), 0, 12)}"
+  region        = get_env("AWS_REGION")
+  stage         = get_env("AWS_STAGE")
+  account_id    = get_env("AWS_ACCOUNT_ID", "")
+  bucket_suffix = local.account_id == "" ? "" : "-${local.account_id}"
   stages = {
     test = {
       name = "Testing"
