@@ -26,15 +26,15 @@ dependency parameters {
     parameters = {
       "${local.base_path}/infra/secret-manager-arn"              = "arn:aws:secretsmanager:us-east-1:000000000000:secret:/tvo/security-scan/prod"
       "${local.base_path}/infra/encryption-key-name"             = "tvo-github-security-scan-encryption-key-prod"
-      "${local.base_path}/infra/dynamo-configuration-table-name" = "tvo-github-security-scan-configuration-table-prod"
-      "${local.base_path}/infra/dynamo-configuration-table-arn"  = "arn:aws:dynamodb:us-east-1:000000000000:table/tvo-github-security-scan-configuration-table-prod"
-      "${local.base_path}/infra/dynamo-cli-files-table-name"     = "tvo-github-security-scan-cli-files-table-prod"
-      "${local.base_path}/infra/dynamo-cli-files-table-arn"      = "arn:aws:dynamodb:us-east-1:000000000000:table/tvo-github-security-scan-cli-files-table-prod"
-      "${local.base_path}/infra/dynamo-api-key-table-name"       = "tvo-github-security-scan-api-key-table-prod"
-      "${local.base_path}/infra/dynamo-api-key-table-arn"        = "arn:aws:dynamodb:us-east-1:000000000000:table/tvo-github-security-scan-api-key-table-prod"
-      "${local.base_path}/infra/dynamo-task-table-name"          = "tvo-github-security-scan-task-table-prod"
-      "${local.base_path}/infra/cli-files-bucket-arn"            = "arn:aws:s3:::tvo-github-security-scan-cli-bucket-prod"
-      "${local.base_path}/infra/api-gateway-task-id"             = "api-gateway-task-id-prod"
+      "${local.base_path}/infra/dynamo/parameter-table-name"     = "tvo-github-security-scan-configuration-table-prod"
+      "${local.base_path}/infra/dynamo/parameter-table-arn"      = "arn:aws:dynamodb:us-east-1:000000000000:table/tvo-github-security-scan-configuration-table-prod"
+      "${local.base_path}/infra/dynamo/cli-files-table-name"     = "tvo-github-security-scan-cli-files-table-prod"
+      "${local.base_path}/infra/dynamo/cli-files-table-arn"      = "arn:aws:dynamodb:us-east-1:000000000000:table/tvo-github-security-scan-cli-files-table-prod"
+      "${local.base_path}/infra/dynamo/apikey-table-name"        = "tvo-github-security-scan-api-key-table-prod"
+      "${local.base_path}/infra/dynamo/apikey-table-arn"         = "arn:aws:dynamodb:us-east-1:000000000000:table/tvo-github-security-scan-api-key-table-prod"
+      "${local.base_path}/infra/dynamo/task-table-name"          = "tvo-github-security-scan-task-table-prod"
+      "${local.base_path}/infra/s3/cli-files/bucket_arn"         = "arn:aws:s3:::tvo-github-security-scan-cli-bucket-prod"
+      "${local.base_path}/infra/apigateway/task/api_gateway_id"  = "api-gateway-task-id-prod"
 
     }
   }
@@ -70,8 +70,8 @@ inputs = {
           "dynamodb:Query"
         ],
         "Resource" : [
-          dependency.parameters.outputs.parameters["${local.base_path}/infra/dynamo-api-key-table-arn"],
-          "${dependency.parameters.outputs.parameters["${local.base_path}/infra/dynamo-api-key-table-arn"]}/index/*"
+          dependency.parameters.outputs.parameters["${local.base_path}/infra/dynamo/apikey-table-arn"],
+          "${dependency.parameters.outputs.parameters["${local.base_path}/infra/dynamo/apikey-table-arn"]}/index/*"
         ]
       },
       {
@@ -80,7 +80,7 @@ inputs = {
           "dynamodb:PutItem"
         ],
         "Resource" : [
-          dependency.parameters.outputs.parameters["${local.base_path}/infra/dynamo-cli-files-table-arn"]
+          dependency.parameters.outputs.parameters["${local.base_path}/infra/dynamo/cli-files-table-arn"]
         ]
       },
       {
@@ -89,7 +89,7 @@ inputs = {
           "dynamodb:GetItem",
         ],
         "Resource" : [
-          "${dependency.parameters.outputs.parameters["${local.base_path}/infra/dynamo-configuration-table-arn"]}"
+          "${dependency.parameters.outputs.parameters["${local.base_path}/infra/dynamo/parameter-table-arn"]}"
         ]
       },
       {
@@ -98,8 +98,8 @@ inputs = {
           "s3:PutObject"
         ],
         "Resource" : [
-          dependency.parameters.outputs.parameters["${local.base_path}/infra/cli-files-bucket-arn"],
-          "${dependency.parameters.outputs.parameters["${local.base_path}/infra/cli-files-bucket-arn"]}/*"
+          dependency.parameters.outputs.parameters["${local.base_path}/infra/s3/cli-files/bucket_arn"],
+          "${dependency.parameters.outputs.parameters["${local.base_path}/infra/s3/cli-files/bucket_arn"]}/*"
         ]
       },
       {
@@ -114,10 +114,10 @@ inputs = {
     ]
   })
   environment_variables = {
-    API_KEY_TABLE_NAME        = dependency.parameters.outputs.parameters["${local.base_path}/infra/dynamo-api-key-table-name"]
-    TASK_CLI_FILES_TABLE_NAME = dependency.parameters.outputs.parameters["${local.base_path}/infra/dynamo-cli-files-table-name"]
-    TASK_TABLE_NAME           = dependency.parameters.outputs.parameters["${local.base_path}/infra/dynamo-task-table-name"]
-    CONFIG_TABLE_NAME         = dependency.parameters.outputs.parameters["${local.base_path}/infra/dynamo-configuration-table-name"]
+    API_KEY_TABLE_NAME        = dependency.parameters.outputs.parameters["${local.base_path}/infra/dynamo/apikey-table-name"]
+    TASK_CLI_FILES_TABLE_NAME = dependency.parameters.outputs.parameters["${local.base_path}/infra/dynamo/cli-files-table-name"]
+    TASK_TABLE_NAME           = dependency.parameters.outputs.parameters["${local.base_path}/infra/dynamo/task-table-name"]
+    CONFIG_TABLE_NAME         = dependency.parameters.outputs.parameters["${local.base_path}/infra/dynamo/parameter-table-name"]
     ENCRYPTION_KEY_NAME       = dependency.parameters.outputs.parameters["${local.base_path}/infra/encryption-key-name"]
     AWS_STAGE                 = local.serverless.locals.stage
     NO_COLOR                  = "true"
