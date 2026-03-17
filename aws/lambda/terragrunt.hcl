@@ -24,8 +24,8 @@ dependency parameters {
   config_path = "${get_parent_terragrunt_dir()}/aws/parameter"
   mock_outputs = {
     parameters = {
-      "${local.base_path}/infra/secret-manager-arn"              = "arn:aws:secretsmanager:us-east-1:000000000000:secret:/tvo/security-scan/prod"
-      "${local.base_path}/infra/encryption-key-name"             = "tvo-github-security-scan-encryption-key-prod"
+      "${local.base_path}/infra/secret/manager/arn"              = "arn:aws:secretsmanager:us-east-1:000000000000:secret:/tvo/security-scan/prod"
+      "${local.base_path}/infra/kms/encryption-key-name"             = "tvo-github-security-scan-encryption-key-prod"
       "${local.base_path}/infra/dynamo/parameter-table-name"     = "tvo-github-security-scan-configuration-table-prod"
       "${local.base_path}/infra/dynamo/parameter-table-arn"      = "arn:aws:dynamodb:us-east-1:000000000000:table/tvo-github-security-scan-configuration-table-prod"
       "${local.base_path}/infra/dynamo/cli-files-table-name"     = "tvo-github-security-scan-cli-files-table-prod"
@@ -108,7 +108,7 @@ inputs = {
           "secretsmanager:GetSecretValue"
         ],
         "Resource" : [
-          "${dependency.parameters.outputs.parameters["${local.base_path}/infra/secret-manager-arn"]}"
+          "${dependency.parameters.outputs.parameters["${local.base_path}/infra/secret/manager/arn"]}"
         ]
       }
     ]
@@ -118,7 +118,7 @@ inputs = {
     TASK_CLI_FILES_TABLE_NAME = dependency.parameters.outputs.parameters["${local.base_path}/infra/dynamo/cli-files-table-name"]
     TASK_TABLE_NAME           = dependency.parameters.outputs.parameters["${local.base_path}/infra/dynamo/task-table-name"]
     CONFIG_TABLE_NAME         = dependency.parameters.outputs.parameters["${local.base_path}/infra/dynamo/parameter-table-name"]
-    ENCRYPTION_KEY_NAME       = dependency.parameters.outputs.parameters["${local.base_path}/infra/encryption-key-name"]
+    ENCRYPTION_KEY_NAME       = dependency.parameters.outputs.parameters["${local.base_path}/infra/kms/encryption-key-name"]
     AWS_STAGE                 = local.serverless.locals.stage
     NO_COLOR                  = "true"
     LOG_LEVEL                 = "debug"
