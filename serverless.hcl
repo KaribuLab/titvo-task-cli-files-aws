@@ -20,7 +20,8 @@ locals {
   parameter_path   = "/tvo/security-scan"
   tags_file_path   = "${get_terragrunt_dir()}/common_tags.json"
   log_retention    = 7
-  common_tags = fileexists(local.tags_file_path) ? jsondecode(file(local.tags_file_path)) : {
-    Project = "Titvo Task CLI Files"
-  }
+  common_tags = merge(
+    fileexists(local.tags_file_path) ? jsondecode(file(local.tags_file_path)) : {}, {
+      Project = "Titvo"
+  })
 }
